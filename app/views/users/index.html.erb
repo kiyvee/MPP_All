@@ -1,0 +1,88 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Users</h1>
+
+<div class="w-50 d-flex my-2">
+  <%= form_tag users_path, method: :get do %>
+    <div class="input-group">
+      <%= text_field_tag :search_full_name, params[:search_full_name], class: "form-control", placeholder: "Full Name" %>
+      <%= hidden_field_tag :sort_name, params[:sort_name] || "asc" %>
+      <button class="btn btn-outline-secondary" type="submit">&#x1F50D;</button>
+    </div>
+  <% end %>
+  <% if params[:sort_name] == "asc" %>
+    <%= link_to "↓", url_for(request.params.merge({sort_name: "desc"})), class: " fs-5 btn btn-success" %>
+  <% else %>
+    <%= link_to "↑", url_for(request.params.merge({sort_name: "asc"})), class: "fs-5 btn btn-primary" %>
+  <% end %>
+</div>
+
+<div class="w-50 d-flex my-2">
+  <%= form_tag users_path, method: :get do %>
+    <div class="input-group">
+      <%= text_field_tag :age, params[:age], class: "form-control", placeholder: "Age" %>
+      <%= hidden_field_tag :sort_age, params[:sort_age] || "asc" %>
+      <button class="btn btn-outline-secondary" type="submit">&#x1F50D;</button>
+    </div>
+  <% end %>
+  <% if params[:sort_age] == "asc" %>
+    <%= link_to "↓", url_for(request.params.merge({sort_age: "desc"})), class: "fs-5 btn btn-success" %>
+  <% else %>
+    <%= link_to "↑", url_for(request.params.merge({sort_age: "asc"})), class: "fs-5 btn btn-primary" %>
+  <% end %>
+</div>
+
+<table>
+  <thead>
+  <tr>
+    <th class="p-2 border-1 border-white">ID</th>
+    <th class="p-2 border-1 border-white">
+      Full Name
+    </th>
+    <th class="p-2 border-1 border-white">Age</th>
+    <th class="p-2 border-1 border-white">Email</th>
+    <th class="p-2 border-1 border-white">Card Number</th>
+    <th class="p-2 border-1 border-white">Card</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td class="p-2 border-1 border-white"><%= user.id %></td>
+      <td class="p-2 border-1 border-white"><%= link_to user.name ? user.name + " " + user.surname : "name surname", user %></td>
+      <td class="p-2 border-1 border-white"><%= user.age ? user.age : 10 %></td>
+      <td class="p-2 border-1 border-white"><%= user.email %></td>
+      <td class="p-2 border-1 border-white">
+        <% if user.user_record %>
+          <%= user.user_record.id %>
+        <% end %>
+      </td>
+      <td class="p-2 border-1 border-white">
+        <%= link_to 'Card', user.user_record %>
+      </td>
+      <td class="p-2"><%= link_to 'Edit User', edit_user_path(user) %></td>
+      <td class="p-2"><%= link_to 'Destroy User', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
+<%= paginate @users %>
+
+<%= link_to "New user", new_user_path %>
+
+<style>
+    table {
+        height: 200px;
+    }
+
+    .pagination {
+        width: 400px;
+    }
+
+    .pagination span {
+        padding: .4rem;
+    }
+
+</style>

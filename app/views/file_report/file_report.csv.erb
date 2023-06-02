@@ -1,0 +1,6 @@
+<%- headers = ['Name', 'Number of books', 'Number of genres', 'Users'] -%>
+<%= CSV.generate_line headers %>
+<%- @libraries.each do |library| -%>
+<%=@users = User.joins(:user_record).where(reader_cards: {library_id: library.id}) %>
+<%= CSV.generate_line([library.name, library.books.count, library.books.select(:genre_id).distinct.count, @users.each do |user| user.name end]) -%>
+<%- end -%>

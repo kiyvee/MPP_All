@@ -1,0 +1,44 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Books</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @books.each do |book| %>
+    <tr>
+      <td class="p-2"><%= book.id %></td>
+      <td class="p-2"><%= book.title %></td>
+      <td class="p-2"><%= book.description %></td>
+      <td class="p-2"><%= link_to 'Show', book %></td>
+      <td class="p-2"><%= link_to 'Edit', edit_book_path(book) %></td>
+      <td class="p-2"><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @books %>
+
+<%= link_to "New book", new_book_path %>
+
+<style>
+    table {
+        height: 200px;
+    }
+
+    .pagination {
+        width: 400px;
+    }
+
+    .pagination span {
+        padding: .4rem;
+    }
+
+</style>

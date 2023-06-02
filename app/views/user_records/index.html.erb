@@ -1,0 +1,45 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>User records</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Lib_ID</th>
+    <th>User_ID</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @user_records.each do |user_record| %>
+    <tr>
+      <td class="p-2"><%= user_record.id %></td>
+      <td class="p-2"><%= user_record.library_id %></td>
+      <td class="p-2"><%= user_record.user_id %></td>
+      <td class="p-2"><%= link_to 'Show', user_record %></td>
+      <td class="p-2"><%= link_to 'Edit', edit_user_record_path(user_record) %></td>
+      <td class="p-2"><%= link_to 'Destroy', user_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
+<%= paginate @user_records %>
+
+<%= link_to "New user record", new_user_record_path %>
+
+<style>
+    table {
+        height: 200px;
+    }
+
+    .pagination {
+        width: 400px;
+    }
+
+    .pagination span {
+        padding: .4rem;
+    }
+
+</style>

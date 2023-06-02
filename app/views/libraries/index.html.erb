@@ -1,0 +1,100 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Libraries</h1>
+
+<%= link_to 'Download general PDF report', pdf_report_path, class: "btn btn-primary me-3"%>
+<%= button_to 'download libs csv', 'libs_csv_report.csv', method: 'get', class: "btn btn-primary mt-3"%>
+
+<%#= button_to 'download libs pdf', 'libs_report' , method: 'get', id: 'exportBtn'%>
+<%#= button_to 'download users pdf', 'users_report' , method: 'get', id: 'exportBtn'%>
+<%#= button_to 'download libs csv', 'libs_csv_report.csv', method: 'get', id: 'exportBtn'%>
+
+<div class="w-50 d-flex my-2">
+  <%= form_tag libraries_path, method: :get do %>
+    <div class="input-group">
+      <%= text_field_tag :search_lib_name, params[:search_lib_name], class: "form-control", placeholder: "Library Name" %>
+      <%= hidden_field_tag :sort_lib_name, params[:sort_lib_name] || "asc" %>
+      <button class="btn btn-outline-secondary" type="submit">&#x1F50D;</button>
+    </div>
+  <% end %>
+  <% if params[:sort_lib_name] == "asc" %>
+    <%= link_to "↓", url_for(request.params.merge({sort_lib_name: "desc"})), class: " fs-5 btn btn-success" %>
+  <% else %>
+    <%= link_to "↑", url_for(request.params.merge({sort_lib_name: "asc"})), class: "fs-5 btn btn-primary" %>
+  <% end %>
+</div>
+
+
+<table>
+  <thead>
+  <tr>
+    <th class="p-2 border-1 border-white">ID</th>
+    <th class="p-2 border-1 border-white">Name</th>
+    <th class="p-2 border-1 border-white">
+      Location
+      <% if params[:sort_location] == "asc" %>
+        <%= link_to "↓", url_for(request.params.merge({sort_location: "desc"})), class: " fs-5 btn btn-success" %>
+      <% else %>
+        <%= link_to "↑", url_for(request.params.merge({sort_location: "asc"})), class: "fs-5 btn btn-primary" %>
+      <% end %>
+    </th>
+    <th class="p-2 border-1 border-white">Year</th>
+    <th class="p-2 border-1 border-white">
+      Books_Count
+      <% if params[:sort_books] == "asc" %>
+        <%= link_to "↓", url_for(request.params.merge({sort_books: "desc"})), class: " fs-5 btn btn-success" %>
+      <% else %>
+        <%= link_to "↑", url_for(request.params.merge({sort_books: "asc"})), class: "fs-5 btn btn-primary" %>
+      <% end %>
+    </th>
+    <th class="p-2 border-1 border-white">
+      Genre_Count
+      <% if params[:sort_genre] == "asc" %>
+        <%= link_to "↓", url_for(request.params.merge({sort_genre: "desc"})), class: " fs-5 btn btn-success" %>
+      <% else %>
+        <%= link_to "↑", url_for(request.params.merge({sort_genre: "asc"})), class: "fs-5 btn btn-primary" %>
+      <% end %>
+    </th>
+    <th class="p-2 border-1 border-white">street</th>
+    <th class="p-2 border-1 border-white">address</th>
+    <th class="p-2 border-1 border-white">zipcode</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @libraries.each do |library| %>
+    <tr>
+      <td class="p-2 border-1 border-white"><%= library.id %></td>
+      <td class="p-2 border-1 border-white"><%= library.name %></td>
+      <td class="p-2 border-1 border-white"><%= library.location %></td>
+      <td class="p-2 border-1 border-white"><%= library.year ? library.year : 2023 %></td>
+      <td class="p-2 border-1 border-white"><%= library.books.count %></td>
+      <td class="p-2 border-1 border-white"><%= library.books.select(:genre_id).distinct.count  %></td>
+      <td class="p-2 border-1 border-white"><%= library.street ? library.street : "no street" %></td>
+      <td class="p-2 border-1 border-white"><%= library.address ? library.address : "no address" %></td>
+      <td class="p-2 border-1 border-white"><%= library.zipcode ? library.zipcode : "no zipcode" %></td>
+      <td class="p-2 "><%= link_to 'Show', library %></td>
+      <td class="p-2"><%= link_to 'Edit', edit_library_path(library) %></td>
+      <td class="p-2"><%= link_to 'Destroy', library, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @libraries %>
+
+<%= link_to 'New Library', new_library_path %>
+
+<style>
+    table {
+        height: 200px;
+    }
+
+    .pagination {
+        width: 400px;
+    }
+
+    .pagination span {
+        padding: .4rem;
+    }
+
+</style>

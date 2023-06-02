@@ -1,0 +1,14 @@
+<h1> ROOT PAGE </h1>
+
+<p>Current Time <%= Time.now.strftime('%I:%M %p') %></p>
+
+<div class="d-flex">
+  <% if current_user %>
+    <p>Welcome, <%= current_user.email %>!</p>
+    <a class="btn btn-primary m-2" href="/admin/login">Enter Admin Mode</a>
+    <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-primary m-2" %>
+  <% else %>
+  <a class="btn btn-primary m-2" href="/users/sign_up">Sign Up</a>
+  <a class="btn btn-secondary m-2" href="/users/sign_in">Sign In</a>
+  <% end %>
+</div>
