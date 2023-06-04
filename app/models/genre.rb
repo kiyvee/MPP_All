@@ -1,5 +1,5 @@
 class Genre < ApplicationRecord
-  belongs_to :book
+  has_many :books
 
   def self.add
     (1..10).each { |i|

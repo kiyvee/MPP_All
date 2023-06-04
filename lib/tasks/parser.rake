@@ -25,7 +25,7 @@ namespace :parse do
 
   task file: :environment do
     require 'csv'
-    path = Rails.root.join(File.dirname(__FILE__ ), '/home/bohdan_yun/Documents/lib_crud/lib/csv_files/libraries_6.csv')
+    path = Rails.root.join(File.dirname(__FILE__ ), '/home/user/lib_crud-main/lib/csv_files/libraries_6.csv')
     table = CSV.parse(File.read(path), headers: true)
 
     100.times do |i|

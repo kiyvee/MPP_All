@@ -1,7 +1,7 @@
 class Book < ApplicationRecord
   belongs_to :library
   belongs_to :author
-  has_many :genres
+  belongs_to :genre
 
   def self.add
     (1..1).each { |i|
